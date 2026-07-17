@@ -24,13 +24,13 @@
 
 ## Phase 3: Global Layout & Theme System
 
-- [ ] Build ambient glow wrapper component (blurred radial gradients behind containers)
-- [ ] Build sticky Navbar with backdrop blur, responsive hamburger drawer
-  - [ ] Logged-out nav items: Explore Catalog, Features, Pricing
-  - [ ] Logged-in nav items: Dashboard/Explore, Create AI Asset, Manage Inventory, Analytics, Support
-  - [ ] User profile dropdown
-- [ ] Build Footer component
-- [ ] Create root `layout.tsx` wrapping all providers (QueryClient, Auth, Toast)
+- [X] Build ambient glow wrapper component (blurred radial gradients behind containers)
+- [X] Build sticky Navbar with backdrop blur, responsive hamburger drawer
+  - [X] Logged-out nav items: Explore Catalog, Features, Pricing
+  - [X] Logged-in nav items: Dashboard/Explore, Create AI Asset, Manage Inventory, Analytics, Support
+  - [X] User profile dropdown with avatar + HeroUI Dropdown
+- [X] Build Footer component
+- [X] Create root `layout.tsx` wrapping all providers (QueryClient, Auth, Toast)
 
 ## Phase 4: Landing Page — 7 Mandatory Sections
 
