@@ -9,12 +9,12 @@
 
 ## Phase 1: Project Scaffolding & Tooling
 
-- [ ] Initialize Next.js 15 project with `/src` directory, App Router, TypeScript strict mode
-- [ ] Install & configure core dependencies: Tailwind CSS, Hero UI v3, TanStack Query, Recharts, React Toastify
-- [ ] Configure Tailwind theme (colors: cyber-violet, electric-cyan, radiant-emerald, slate neutrals)
-- [ ] Enable React Compiler in Next.js config
-- [ ] Set up ESLint, Prettier, and project-wide TypeScript path aliases (`@/` -> `src/`)
-- [ ] Create `.env.local` with `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_WS_URL`
+- [X] Initialize Next.js 15 project with `/src` directory, App Router, TypeScript strict mode
+- [X] Install & configure core dependencies: Tailwind CSS, Hero UI v3, TanStack Query, Recharts, React Toastify
+- [X] Configure Tailwind theme (colors: cyber-violet, electric-cyan, radiant-emerald, slate neutrals)
+- [X] Enable React Compiler in Next.js config
+- [X] Set up ESLint, Prettier, and project-wide TypeScript path aliases (`@/` -> `src/`)
+- [X] Create `.env.local` with `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_WS_URL`
 
 ## Phase 2: Directory Structure
 
