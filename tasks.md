@@ -18,9 +18,9 @@
 
 ## Phase 2: Directory Structure
 
-- [ ] Create `/src/app` route groups: `(auth)`, `(protected)`, `explore`, `items/[id]`
-- [ ] Create `/src/components` sub-dirs: `ai/`, `cards/`, `common/`, `data/`
-- [ ] Create `/src/config/`, `/src/hooks/`, `/src/services/`, `/src/types/`, `/src/utils/`
+- [X] Create `/src/app` route groups: `(auth)`, `(protected)`, `explore`, `items/[id]`
+- [X] Create `/src/components` sub-dirs: `ai/`, `cards/`, `common/`, `data/`
+- [X] Create `/src/config/`, `/src/hooks/`, `/src/services/`, `/src/types/`, `/src/utils/`
 
 ## Phase 3: Global Layout & Theme System
 
