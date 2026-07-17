@@ -32,7 +32,16 @@
 - [X] Build Footer component
 - [X] Create root `layout.tsx` wrapping all providers (QueryClient, Auth, Toast)
 
-## Phase 4: Landing Page — 7 Mandatory Sections
+## Phase 4: Better Auth Setup
+
+- [ ] Install Better Auth client SDK
+- [ ] Configure Better Auth client with API base URL
+- [ ] Create Better Auth session provider wrapper
+- [ ] Replace `useAuth` hook to use Better Auth session management
+- [ ] Wire up demo login (sandbox credentials)
+- [ ] Test session persistence and logout
+
+## Phase 5: Landing Page — 7 Mandatory Sections
 
 - [ ] **Hero Section** — 60–70vh, interactive model selector, CTA to `/explore`, animated canvas
 - [ ] **Core Features Grid** — Agentic execution, real-time memory sync, external tool engines
@@ -42,19 +51,19 @@
 - [ ] **Curated Industry Insights** — Blog snippet grid
 - [ ] **Dynamic CTA & Newsletter** — Email verification, automated onboarding
 
-## Phase 5: Authentication UI
+## Phase 6: Authentication UI
 
 - [ ] Build Login page with validation schema, error display, Demo Login button
 - [ ] Build Register page with validation, error display
 - [ ] Integrate Google OAuth via Better Auth
 - [ ] Implement `AuthContext` / session management hook
 
-## Phase 6: Protected Routes & Middleware
+## Phase 7: Protected Routes & Middleware
 
 - [ ] Create middleware that redirects unauthenticated users to `/login` with return URL
 - [ ] Protect `/items/add`, `/items/manage`, `/analytics`, `/support` routes
 
-## Phase 7: Explore / Catalog Page
+## Phase 8: Explore / Catalog Page
 
 - [ ] Build search bar + multi-field filter panel (Category, Pricing Tier, LLM Engine, Min Accuracy)
 - [ ] Build sorting dropdown (Highest Rated, Most Downloaded, Lowest Latency, Recently Published)
@@ -62,14 +71,14 @@
 - [ ] Build product card component (uniform 4-col grid, skeleton loading states)
 - [ ] Wire up TanStack Query for fetching, caching, and optimistic updates
 
-## Phase 8: Product Details Page
+## Phase 9: Product Details Page
 
 - [ ] Build split-view layout (media/code block + description)
 - [ ] Render markdown `fullDescription` with parser
 - [ ] Build Technical Specifications matrix (operational limits, context window, etc.)
 - [ ] Build User Reviews timeline with ratings & timestamps
 
-## Phase 9: AI Asset Content Generator (`/items/add`)
+## Phase 10: AI Asset Content Generator (`/items/add`)
 
 - [ ] Build multi-step form with core variable inputs
 - [ ] Add dynamic sliders for output length, template parameters (Technical, Conversational, Enterprise)
@@ -77,35 +86,35 @@
 - [ ] Allow human editing before submission
 - [ ] Submit final asset to `POST /api/v1/items`
 
-## Phase 10: Smart Recommendation Canvas
+## Phase 11: Smart Recommendation Canvas
 
 - [ ] Build sidebar anchored in Explore view
 - [ ] Fetch recommendations via `POST /api/v1/ai/recommend` based on active filters
 - [ ] Display recommended cards with click-to-view
 
-## Phase 11: Inventory Management (`/items/manage`)
+## Phase 12: Inventory Management (`/items/manage`)
 
 - [ ] Build tabular data table with deployed assets
 - [ ] Add row actions: View Details, Edit Config modal, Delete with confirmation
 - [ ] Wire up TanStack Query mutations for create/update/delete
 
-## Phase 12: Analytics & Support Pages
+## Phase 13: Analytics & Support Pages
 
 - [ ] Build Analytics Panel with Recharts (usage, telemetry, charts)
 - [ ] Build Support Desk page (ticket list + create ticket form)
 
-## Phase 13: Services & API Layer
+## Phase 14: Services & API Layer
 
 - [ ] Create Axios instance with base URL, interceptors, credentials config
 - [ ] Create service modules: `auth`, `items`, `ai`, `users`
 - [ ] Create TanStack Query hooks for all API endpoints
 
-## Phase 14: Types & Utils
+## Phase 15: Types & Utils
 
 - [ ] Define TypeScript interfaces: `User`, `Product`, `AuthResponse`, `AIRequest`, `Pagination`
 - [ ] Build utility functions: formatters, validators, helpers
 
-## Phase 15: Deployment
+## Phase 16: Deployment
 
 - [ ] Configure production build scripts
 - [ ] Set up CORS-compatible deployment (separate origin from backend)

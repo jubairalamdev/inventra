@@ -12,18 +12,19 @@
 | Project scaffolding & tooling | Pending | Phase 1 |
 | Directory structure | Pending | Phase 2 |
 | Global layout & theme | Pending | Phase 3 |
-| Landing page (7 sections) | Pending | Phase 4 |
-| Authentication UI | Pending | Phase 5 |
-| Protected routes & middleware | Pending | Phase 6 |
-| Explore / Catalog page | Pending | Phase 7 |
-| Product details page | Pending | Phase 8 |
-| AI Asset Generator | Pending | Phase 9 |
-| Smart Recommendation Canvas | Pending | Phase 10 |
-| Inventory Management | Pending | Phase 11 |
-| Analytics & Support | Pending | Phase 12 |
-| Services & API layer | Pending | Phase 13 |
-| Types & Utils | Pending | Phase 14 |
-| Deployment | Pending | Phase 15 |
+| Better Auth setup | Pending | Phase 4 |
+| Landing page (7 sections) | Pending | Phase 5 |
+| Authentication UI | Pending | Phase 6 |
+| Protected routes & middleware | Pending | Phase 7 |
+| Explore / Catalog page | Pending | Phase 8 |
+| Product details page | Pending | Phase 9 |
+| AI Asset Generator | Pending | Phase 10 |
+| Smart Recommendation Canvas | Pending | Phase 11 |
+| Inventory Management | Pending | Phase 12 |
+| Analytics & Support | Pending | Phase 13 |
+| Services & API layer | Pending | Phase 14 |
+| Types & Utils | Pending | Phase 15 |
+| Deployment | Pending | Phase 16 |
 
 ---
 
