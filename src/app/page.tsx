@@ -43,25 +43,11 @@ const testimonials = [
   { name: "Marcus Johnson", handle: "@marcj", text: "Been buying from Inventra for 2 years. Always top-tier products and lightning fast shipping. Highly recommend.", rating: 5, role: "PC Enthusiast" },
 ];
 
-function DecorativeIcons() {
-  return (
-    <>
-      <span className="absolute left-[8%] top-[12%] text-3xl opacity-15 select-none">🖱️</span>
-      <span className="absolute right-[12%] top-[8%] text-3xl opacity-15 select-none">⌨️</span>
-      <span className="absolute right-[6%] bottom-[20%] text-2xl opacity-15 select-none">🎧</span>
-      <span className="absolute left-[5%] bottom-[15%] text-3xl opacity-15 select-none">🕹️</span>
-      <span className="absolute left-[45%] top-[5%] text-2xl opacity-10 select-none">⚡</span>
-      <span className="absolute right-[8%] top-[50%] text-2xl opacity-10 select-none">💻</span>
-    </>
-  );
-}
-
 export default function HomePage() {
   return (
     <>
       {/* ─── Hero ─── */}
       <section className="relative overflow-hidden bg-gradient-to-br from-gaming-purple/5 via-white to-gaming-cyan/5">
-        <DecorativeIcons />
         <motion.div
           className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8"
           variants={containerVariants}
@@ -153,8 +139,6 @@ export default function HomePage() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-100px" }}
       >
-        <span className="absolute right-[10%] top-[8%] text-3xl opacity-10 select-none">🛡️</span>
-        <span className="absolute left-[6%] bottom-[10%] text-2xl opacity-10 select-none">🚀</span>
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <motion.h2
             className="text-3xl font-bold text-text-primary text-center mb-2"
@@ -204,9 +188,6 @@ export default function HomePage() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-100px" }}
       >
-        <span className="absolute right-[3%] top-[10%] text-3xl opacity-10 select-none">🎮</span>
-        <span className="absolute left-[4%] bottom-[15%] text-2xl opacity-10 select-none">⌨️</span>
-        <span className="absolute right-[10%] bottom-[25%] text-2xl opacity-10 select-none">🖱️</span>
         <motion.h2
           className="text-3xl font-bold text-text-primary text-center mb-2"
           initial={{ opacity: 0, y: 20 }}
@@ -251,8 +232,6 @@ export default function HomePage() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-100px" }}
       >
-        <span className="absolute left-[5%] top-[10%] text-2xl opacity-10 select-none">💬</span>
-        <span className="absolute right-[8%] bottom-[15%] text-3xl opacity-10 select-none">⭐</span>
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <motion.h2
             className="text-3xl font-bold text-text-primary text-center mb-2"
@@ -307,8 +286,6 @@ export default function HomePage() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-100px" }}
       >
-        <span className="absolute right-[12%] top-[15%] text-2xl opacity-10 select-none">🏷️</span>
-        <span className="absolute left-[10%] bottom-[20%] text-3xl opacity-10 select-none">🔥</span>
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <motion.p
             className="text-center text-sm font-medium uppercase tracking-widest text-text-muted mb-8"
@@ -347,8 +324,6 @@ export default function HomePage() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-100px" }}
       >
-        <span className="absolute left-[4%] top-[8%] text-3xl opacity-10 select-none">🏆</span>
-        <span className="absolute right-[6%] bottom-[12%] text-2xl opacity-10 select-none">🎯</span>
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <motion.h2
             className="text-3xl font-bold text-text-primary text-center mb-2"
@@ -409,8 +384,6 @@ export default function HomePage() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-100px" }}
       >
-        <span className="absolute left-[8%] top-[10%] text-2xl opacity-10 select-none">👥</span>
-        <span className="absolute right-[10%] top-[20%] text-3xl opacity-10 select-none">📦</span>
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <motion.div
             className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4"
@@ -452,8 +425,6 @@ export default function HomePage() {
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.3 }}
         >
-          <span className="absolute -top-6 left-[15%] text-6xl opacity-15 select-none">🎮</span>
-          <span className="absolute -bottom-4 right-[10%] text-5xl opacity-15 select-none">🕹️</span>
           <div className="relative z-10">
             <h2 className="text-3xl font-bold text-white">Stay in the Game</h2>
             <p className="text-white/80 mt-2 mb-6 max-w-md mx-auto">
