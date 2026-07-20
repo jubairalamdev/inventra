@@ -21,34 +21,9 @@ export default function AddProductPage() {
     category: "Keyboards",
     brand: "",
     stock: "0",
+    image_url: "",
     specs: "{}",
     tags: "",
-  });
-  const [aiFields, setAiFields] = useState<Record<string, any> | null>(null);
-
-  const generateProduct = useMutation({
-    mutationFn: async () => {
-      const res = await fetch(`${API}/ai/generate`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ name: form.name, category: form.category, keywords: form.tags }),
-      });
-      if (!res.ok) throw new Error("AI generation failed");
-      return res.json();
-    },
-    onSuccess: (data) => {
-      setAiFields(data);
-      setForm((prev) => ({
-        ...prev,
-        description: data.description || prev.description,
-        longDescription: data.longDescription || prev.longDescription,
-        price: String(data.price || prev.price),
-        tags: data.tags?.join(", ") || prev.tags,
-        specs: JSON.stringify(data.specs || {}, null, 2),
-      }));
-      toast.success("AI description generated!");
-    },
-    onError: () => toast.error("Failed to generate with AI"),
   });
 
   const submitProduct = useMutation({
@@ -65,6 +40,7 @@ export default function AddProductPage() {
           category: form.category,
           brand: form.brand,
           stock: Number(form.stock),
+          image_url: form.image_url,
           specs,
           tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean),
         }),
@@ -124,17 +100,15 @@ export default function AddProductPage() {
               className="w-full rounded-xl border border-border-light bg-white px-4 py-3 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-gaming-purple" />
           </div>
           <div>
+            <label className="text-sm font-medium text-text-primary block mb-1">Image URL</label>
+            <input value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })}
+              className="w-full rounded-xl border border-border-light bg-white px-4 py-3 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-gaming-purple" />
+          </div>
+          <div>
             <label className="text-sm font-medium text-text-primary block mb-1">Tags (comma separated)</label>
             <input value={form.tags} onChange={(e) => setForm({ ...form, tags: e.target.value })}
               className="w-full rounded-xl border border-border-light bg-white px-4 py-3 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-gaming-purple" />
           </div>
-        </div>
-
-        <div className="flex justify-end">
-          <button type="button" onClick={() => form.name && generateProduct.mutate()} disabled={generateProduct.isPending || !form.name}
-            className="rounded-xl border border-gaming-purple/30 text-gaming-purple px-5 py-2.5 text-sm font-semibold hover:bg-gaming-purple/5 disabled:opacity-50 transition-all">
-            {generateProduct.isPending ? "Generating..." : "✨ Generate with AI"}
-          </button>
         </div>
 
         <div>
