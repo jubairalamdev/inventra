@@ -17,6 +17,7 @@ export const metadata: Metadata = {
   title: "Inventra — Gaming Gadgets Ecommerce",
   description:
     "Premium gaming gadgets, peripherals, and accessories. Keyboards, mice, headsets, controllers, and more.",
+  icons: [{ rel: "icon", url: "/logo-small.png" }],
 };
 
 export default function RootLayout({
