@@ -9,7 +9,7 @@ interface ProductCardProps {
   price: number;
   category: string;
   brand?: string;
-  images?: string[];
+  image_url?: string;
   rating: number;
   stock?: number;
 }
@@ -21,11 +21,11 @@ export default function ProductCard({
   price,
   category,
   brand,
-  images,
+  image_url,
   rating,
   stock,
 }: ProductCardProps) {
-  const imgSrc = images?.[0] || null;
+  const imgSrc = image_url || null;
 
   return (
     <Link

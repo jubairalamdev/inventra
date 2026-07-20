@@ -14,7 +14,6 @@ export default function ProductDetailsPage() {
   const { data: session } = useSession();
   const token = session?.session?.token;
   const [qty, setQty] = useState(1);
-  const [activeImg, setActiveImg] = useState(0);
 
   const { data: product, isLoading } = useQuery({
     queryKey: ["product", id],
@@ -59,8 +58,6 @@ export default function ProductDetailsPage() {
 
   if (!product) return <div className="text-center py-20 text-text-muted">Product not found</div>;
 
-  const images = product.images?.length ? product.images : [null];
-
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <button onClick={() => router.back()} className="text-sm text-text-muted hover:text-gaming-purple mb-4 flex items-center gap-1">
@@ -71,30 +68,15 @@ export default function ProductDetailsPage() {
       </button>
 
       <div className="grid gap-8 lg:grid-cols-2">
-        {/* Images */}
+        {/* Image */}
         <div>
           <div className="aspect-square rounded-xl bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center overflow-hidden">
-            {images[activeImg] ? (
-              <img src={images[activeImg]} alt={product.name} className="h-full w-full object-cover" />
+            {product.image_url ? (
+              <img src={product.image_url} alt={product.name} className="h-full w-full object-cover" />
             ) : (
               <span className="text-8xl opacity-20">🎮</span>
             )}
           </div>
-          {images.length > 1 && (
-            <div className="flex gap-2 mt-3">
-              {images.map((_: string, i: number) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveImg(i)}
-                  className={`w-16 h-16 rounded-lg border-2 overflow-hidden ${i === activeImg ? 'border-gaming-purple' : 'border-border-light'}`}
-                >
-                  <div className="w-full h-full bg-gray-100 flex items-center justify-center text-xs text-text-muted">
-                    {i + 1}
-                  </div>
-                </button>
-              ))}
-            </div>
-          )}
         </div>
 
         {/* Info */}

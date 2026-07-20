@@ -91,8 +91,12 @@ export default function CartPage() {
               const p = item.product || item;
               return (
                 <div key={item.productId} className="flex items-center gap-4 rounded-xl border border-border-light bg-white p-4">
-                  <div className="h-20 w-20 rounded-lg bg-gray-100 flex items-center justify-center shrink-0">
-                    <span className="text-2xl opacity-20">🎮</span>
+                  <div className="h-20 w-20 rounded-lg bg-gray-100 flex items-center justify-center shrink-0 overflow-hidden">
+                    {p.image_url ? (
+                      <img src={p.image_url} alt={p.name} className="h-full w-full object-cover" />
+                    ) : (
+                      <span className="text-2xl opacity-20">🎮</span>
+                    )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <Link href={`/shop/${item.productId}`} className="font-semibold text-text-primary hover:text-gaming-purple line-clamp-1">

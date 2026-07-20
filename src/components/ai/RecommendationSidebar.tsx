@@ -26,7 +26,7 @@ export default function RecommendationSidebar({ category }: Props) {
         const err = await res.json().catch(() => ({ error: "Request failed" }));
         throw new Error(err.error || "Request failed");
       }
-      return res.json() as Promise<{ recommendations: { _id: string; name: string; price: number; rating: number; category: string; images?: string[] }[] }>;
+      return res.json() as Promise<{ recommendations: { _id: string; name: string; price: number; rating: number; category: string; image_url?: string }[] }>;
     },
     enabled: !!session?.session?.token,
     retry: false,
@@ -72,7 +72,11 @@ export default function RecommendationSidebar({ category }: Props) {
               className="flex items-center gap-3 rounded-lg border border-border-light p-3 transition-all hover:bg-gray-50"
             >
               <div className="h-12 w-12 rounded-lg bg-gray-100 flex items-center justify-center shrink-0">
-                <span className="text-lg opacity-30">🎮</span>
+                {item.image_url ? (
+                  <img src={item.image_url} alt={item.name} className="h-full w-full object-cover" />
+                ) : (
+                  <span className="text-5xl opacity-20">🎮</span>
+                )}
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-medium text-text-primary truncate">{item.name}</p>

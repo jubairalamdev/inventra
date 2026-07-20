@@ -61,7 +61,7 @@ function ShopContent() {
         {token && (
           <button
             onClick={() => setShowRecs(!showRecs)}
-            className="rounded-lg border border-border-light px-4 py-2 text-sm text-text-muted hover:text-gaming-purple hover:border-gaming-purple/30 transition-all"
+            className="rounded-lg border border-gaming-purple bg-gaming-purple px-4 py-2 text-sm text-white hover:text-white hover:border-gaming-purple/30 transition-all"
           >
             {showRecs ? "Hide Recommendations" : "AI Recommendations"}
           </button>
