@@ -18,10 +18,25 @@ export const auth = betterAuth({
       email: "email",
       image: "image",
     },
+    additionalFields: {
+      role: {
+        type: "string",
+        input: false,
+      },
+    },
   },
   session: {
     expiresIn: 60 * 60 * 24 * 7,
     updateAge: 60 * 60 * 24,
+  },
+  databaseHooks: {
+    user: {
+      create: {
+        before: async (user) => {
+          return { data: { ...user, role: "user" } }
+        },
+      },
+    },
   },
   baseURL: process.env.BETTER_AUTH_URL!,
   secret: process.env.BETTER_AUTH_SECRET!,
