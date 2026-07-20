@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import ProductCard, { ProductCardSkeleton } from "@/components/cards/ProductCard";
+import RecommendationSidebar from "@/components/ai/RecommendationSidebar";
 
 interface Product {
   _id: string;
@@ -130,26 +131,36 @@ export default function ExplorePage() {
         </div>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {isLoading
-          ? Array.from({ length: 8 }).map((_, i) => <ProductCardSkeleton key={i} />)
-          : data?.items.map((item) => <ProductCard key={item._id} {...item} />)}
-      </div>
+      <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
+        <div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {isLoading
+              ? Array.from({ length: 6 }).map((_, i) => <ProductCardSkeleton key={i} />)
+              : data?.items.map((item) => <ProductCard key={item._id} {...item} />)}
+          </div>
 
-      {data && data.items.length === 0 && (
-        <p className="text-center text-text-muted py-20">No agents found matching your filters.</p>
-      )}
+          {data && data.items.length === 0 && (
+            <p className="text-center text-text-muted py-20">No agents found matching your filters.</p>
+          )}
 
-      {data && data.nextCursor && (
-        <div className="flex justify-center mt-10">
-          <button
-            onClick={() => setCursor(data.nextCursor)}
-            className="rounded-full border border-white/20 px-8 py-3 text-sm font-medium text-text-crisp transition-all hover:bg-white/10"
-          >
-            Load More
-          </button>
+          {data && data.nextCursor && (
+            <div className="flex justify-center mt-10">
+              <button
+                onClick={() => setCursor(data.nextCursor)}
+                className="rounded-full border border-white/20 px-8 py-3 text-sm font-medium text-text-crisp transition-all hover:bg-white/10"
+              >
+                Load More
+              </button>
+            </div>
+          )}
         </div>
-      )}
+
+        <aside className="hidden lg:block">
+          <div className="sticky top-24">
+            <RecommendationSidebar category={category} tags={search ? search.split(" ") : []} />
+          </div>
+        </aside>
+      </div>
     </div>
   );
 }
