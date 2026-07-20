@@ -39,17 +39,17 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="mx-auto flex min-h-[60vh] max-w-md items-center px-4 py-16">
-      <div className="w-full">
+    <div className="mx-auto flex min-h-[80vh] max-w-md items-center px-4 py-16">
+      <div className="w-full rounded-2xl border border-border-light bg-white p-8 shadow-lg">
         <h1 className="text-3xl font-bold text-text-primary text-center mb-2">Create Account</h1>
         <p className="text-text-muted text-center mb-8">Join Inventra Gaming today</p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input type="text" placeholder="Full Name" value={name} onChange={(e) => setName(e.target.value)} required
-            className="w-full rounded-xl border border-border-light bg-white px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-gaming-purple" />
+            className="w-full rounded-xl border border-border-light bg-gray-50 px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-gaming-purple" />
           <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required
-            className="w-full rounded-xl border border-border-light bg-white px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-gaming-purple" />
+            className="w-full rounded-xl border border-border-light bg-gray-50 px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-gaming-purple" />
           <input type="password" placeholder="Password (min 8 characters)" value={password} onChange={(e) => setPassword(e.target.value)} required
-            className="w-full rounded-xl border border-border-light bg-white px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-gaming-purple" />
+            className="w-full rounded-xl border border-border-light bg-gray-50 px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-gaming-purple" />
           <button type="submit" disabled={loading}
             className="w-full rounded-xl bg-gaming-purple py-3 text-sm font-semibold text-white hover:bg-gaming-purple/90 disabled:opacity-50 transition-all">
             {loading ? "Creating Account..." : "Create Account"}
