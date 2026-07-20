@@ -19,7 +19,7 @@ export function Providers({ children }: { children: ReactNode }) {
         <Footer />
         <ToastContainer
           position="bottom-right"
-          theme="dark"
+          theme="light"
           autoClose={3000}
         />
       </AuthProvider>

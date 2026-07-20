@@ -4,57 +4,67 @@ import Link from "next/link";
 
 interface ProductCardProps {
   _id: string;
-  title: string;
-  shortDescription?: string;
+  name: string;
+  description?: string;
   price: number;
   category: string;
-  tags?: string[];
+  brand?: string;
+  images?: string[];
   rating: number;
-  vendorId?: any;
+  stock?: number;
 }
 
 export default function ProductCard({
   _id,
-  title,
-  shortDescription,
+  name,
+  description,
   price,
   category,
-  tags,
+  brand,
+  images,
   rating,
+  stock,
 }: ProductCardProps) {
+  const imgSrc = images?.[0] || null;
+
   return (
     <Link
-      href={`/items/${_id}`}
-      className="group rounded-2xl border border-white/10 bg-dark-card/30 overflow-hidden transition-all hover:-translate-y-1 hover:border-cyber-violet/50 hover:shadow-lg hover:shadow-cyber-violet/5"
+      href={`/shop/${_id}`}
+      className="group rounded-xl border border-border-light bg-white overflow-hidden shadow-sm transition-all hover:-translate-y-1 hover:shadow-md hover:border-gaming-purple/30"
     >
-      <div className="h-48 bg-gradient-to-br from-cyber-violet/10 to-electric-cyan/10 flex items-center justify-center">
-        <span className="text-5xl opacity-30">◆</span>
+      <div className="h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center relative overflow-hidden">
+        {imgSrc ? (
+          <img src={imgSrc} alt={name} className="h-full w-full object-cover" />
+        ) : (
+          <span className="text-5xl opacity-20">🎮</span>
+        )}
       </div>
-      <div className="p-5">
-        <div className="flex items-center justify-between mb-3">
-          <span className="rounded-full bg-cyber-violet/20 px-3 py-0.5 text-xs font-medium text-cyber-violet">
+      <div className="p-4">
+        <div className="flex items-center justify-between mb-2">
+          <span className="rounded-full bg-gaming-purple/10 px-2.5 py-0.5 text-xs font-medium text-gaming-purple">
             {category}
           </span>
-          <span className="text-yellow-500 text-sm">{'★'.repeat(Math.round(rating))}{'☆'.repeat(5 - Math.round(rating))}</span>
-        </div>
-        <h3 className="text-lg font-semibold text-text-crisp mb-2 group-hover:text-cyber-violet transition-colors line-clamp-1">
-          {title}
-        </h3>
-        {shortDescription && (
-          <p className="text-sm text-text-muted line-clamp-2 mb-3">{shortDescription}</p>
-        )}
-        {tags && tags.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mb-3">
-            {tags.slice(0, 3).map((t) => (
-              <span key={t} className="rounded-full bg-white/5 px-2.5 py-0.5 text-xs text-text-muted">{t}</span>
-            ))}
+          <div className="flex items-center gap-1">
+            <span className="text-gaming-amber text-sm">{'★'.repeat(Math.round(rating))}</span>
+            <span className="text-xs text-text-muted">({rating.toFixed(1)})</span>
           </div>
+        </div>
+        {brand && (
+          <p className="text-xs text-text-muted mb-1">{brand}</p>
         )}
-        <div className="flex items-center justify-between pt-3 border-t border-white/5">
-          <span className="text-lg font-bold text-text-crisp">${price.toFixed(2)}</span>
-          <span className="text-sm text-cyber-violet opacity-0 group-hover:opacity-100 transition-opacity">
-            View details →
-          </span>
+        <h3 className="text-base font-semibold text-text-primary mb-1.5 line-clamp-1 group-hover:text-gaming-purple transition-colors">
+          {name}
+        </h3>
+        {description && (
+          <p className="text-sm text-text-muted line-clamp-2 mb-3">{description}</p>
+        )}
+        <div className="flex items-center justify-between pt-3 border-t border-border-light">
+          <span className="text-lg font-bold text-text-primary">${price.toFixed(2)}</span>
+          {stock !== undefined && (
+            <span className={`text-xs ${stock > 0 ? 'text-gaming-emerald' : 'text-red-500'}`}>
+              {stock > 0 ? 'In Stock' : 'Out of Stock'}
+            </span>
+          )}
         </div>
       </div>
     </Link>
@@ -63,20 +73,20 @@ export default function ProductCard({
 
 export function ProductCardSkeleton() {
   return (
-    <div className="rounded-2xl border border-white/10 bg-dark-card/30 overflow-hidden animate-pulse">
-      <div className="h-48 bg-white/5" />
-      <div className="p-5 space-y-3">
+    <div className="rounded-xl border border-border-light bg-white overflow-hidden animate-pulse shadow-sm">
+      <div className="h-48 bg-gray-100" />
+      <div className="p-4 space-y-3">
         <div className="flex gap-2">
-          <div className="h-5 w-20 rounded-full bg-white/5" />
-          <div className="h-5 w-12 rounded-full bg-white/5" />
+          <div className="h-5 w-20 rounded-full bg-gray-100" />
+          <div className="h-5 w-12 rounded-full bg-gray-100" />
         </div>
-        <div className="h-5 w-3/4 rounded bg-white/5" />
-        <div className="h-4 w-full rounded bg-white/5" />
-        <div className="h-4 w-2/3 rounded bg-white/5" />
-        <div className="h-px w-full bg-white/5" />
+        <div className="h-5 w-3/4 rounded bg-gray-100" />
+        <div className="h-4 w-full rounded bg-gray-100" />
+        <div className="h-4 w-2/3 rounded bg-gray-100" />
+        <div className="h-px w-full bg-gray-100" />
         <div className="flex justify-between">
-          <div className="h-6 w-16 rounded bg-white/5" />
-          <div className="h-4 w-20 rounded bg-white/5" />
+          <div className="h-6 w-16 rounded bg-gray-100" />
+          <div className="h-4 w-20 rounded bg-gray-100" />
         </div>
       </div>
     </div>

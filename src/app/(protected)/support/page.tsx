@@ -1,125 +1,110 @@
 "use client";
 
 import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { useSession } from "@/lib/auth-client";
 
-const initialTickets = [
-  { id: "TKT-001", subject: "Deployment failing on custom model", status: "Open", date: "2h ago", priority: "High" },
-  { id: "TKT-002", subject: "API rate limit too restrictive", status: "In Progress", date: "1d ago", priority: "Medium" },
-  { id: "TKT-003", subject: "Billing inquiry for Enterprise plan", status: "Resolved", date: "3d ago", priority: "Low" },
-];
+const API = process.env.NEXT_PUBLIC_API_URL;
 
 export default function SupportPage() {
-  const [tickets, setTickets] = useState(initialTickets);
+  const queryClient = useQueryClient();
+  const { data: session } = useSession();
+  const token = session?.session?.token;
   const [showForm, setShowForm] = useState(false);
   const [subject, setSubject] = useState("");
   const [description, setDescription] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!subject.trim() || !description.trim()) {
-      toast.error("Please fill in all fields");
-      return;
-    }
-    const newTicket = {
-      id: `TKT-${String(tickets.length + 1).padStart(3, "0")}`,
-      subject,
-      status: "Open",
-      date: "Just now",
-      priority: "Medium",
-    };
-    setTickets([newTicket, ...tickets]);
-    setSubject("");
-    setDescription("");
-    setShowForm(false);
-    toast.success("Ticket created");
-  };
+  const { data, isLoading } = useQuery({
+    queryKey: ["support-tickets"],
+    queryFn: async () => {
+      const res = await fetch(`${API}/support/tickets`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error("Failed to fetch tickets");
+      return res.json() as Promise<{ tickets: any[] }>;
+    },
+    enabled: !!token,
+  });
+
+  const createTicket = useMutation({
+    mutationFn: async () => {
+      const res = await fetch(`${API}/support/tickets`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ subject, description }),
+      });
+      if (!res.ok) throw new Error("Failed to create ticket");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["support-tickets"] });
+      toast.success("Ticket created");
+      setSubject("");
+      setDescription("");
+      setShowForm(false);
+    },
+    onError: () => toast.error("Failed to create ticket"),
+  });
+
+  if (!session) {
+    return (
+      <div className="mx-auto max-w-3xl px-4 py-20 text-center">
+        <h1 className="text-3xl font-bold text-text-primary mb-4">Support</h1>
+        <p className="text-text-muted">Please log in to access support.</p>
+      </div>
+    );
+  }
+
+  const tickets = data?.tickets || [];
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-text-crisp">Support Desk</h1>
+          <h1 className="text-3xl font-bold text-text-primary">Support Desk</h1>
           <p className="text-text-muted mt-1">Submit and track support tickets</p>
         </div>
-        <button
-          onClick={() => setShowForm(!showForm)}
-          className="rounded-xl bg-cyber-violet px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-cyber-violet/90"
-        >
+        <button onClick={() => setShowForm(!showForm)}
+          className="rounded-xl bg-gaming-purple px-6 py-2.5 text-sm font-semibold text-white hover:bg-gaming-purple/90">
           {showForm ? "Cancel" : "New Ticket"}
         </button>
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="rounded-2xl border border-white/10 bg-dark-card/30 p-6 mb-8 space-y-4">
-          <div>
-            <label className="text-sm font-medium text-text-crisp block mb-1">Subject</label>
-            <input
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              placeholder="Brief description of the issue"
-              className="w-full rounded-xl border border-white/10 bg-slate-deep px-4 py-3 text-sm text-text-crisp placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-cyber-violet"
-            />
-          </div>
-          <div>
-            <label className="text-sm font-medium text-text-crisp block mb-1">Description</label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              rows={5}
-              placeholder="Detailed explanation..."
-              className="w-full rounded-xl border border-white/10 bg-slate-deep px-4 py-3 text-sm text-text-crisp placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-cyber-violet"
-            />
-          </div>
-          <button type="submit" className="rounded-xl bg-radiant-emerald px-6 py-2.5 text-sm font-semibold text-white hover:bg-radiant-emerald/90">
-            Submit Ticket
+        <div className="rounded-xl border border-border-light bg-white p-6 mb-8 space-y-4">
+          <input value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="Subject"
+            className="w-full rounded-lg border border-border-light px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-gaming-purple" />
+          <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={4} placeholder="Describe your issue..."
+            className="w-full rounded-lg border border-border-light px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-gaming-purple" />
+          <button onClick={() => createTicket.mutate()} disabled={createTicket.isPending || !subject || !description}
+            className="rounded-xl bg-gaming-purple px-6 py-2.5 text-sm font-semibold text-white hover:bg-gaming-purple/90 disabled:opacity-50">
+            {createTicket.isPending ? "Submitting..." : "Submit Ticket"}
           </button>
-        </form>
+        </div>
       )}
 
-      <div className="rounded-2xl border border-white/10 bg-dark-card/30 overflow-hidden">
+      <div className="rounded-xl border border-border-light bg-white overflow-hidden">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-white/10 text-left text-sm text-text-muted">
-              <th className="px-6 py-4 font-medium">ID</th>
-              <th className="px-6 py-4 font-medium">Subject</th>
-              <th className="px-6 py-4 font-medium">Status</th>
-              <th className="px-6 py-4 font-medium">Priority</th>
-              <th className="px-6 py-4 font-medium">Date</th>
+            <tr className="border-b border-border-light text-left text-sm text-text-muted">
+              <th className="px-5 py-3 font-medium">Subject</th>
+              <th className="px-5 py-3 font-medium">Status</th>
+              <th className="px-5 py-3 font-medium">Priority</th>
+              <th className="px-5 py-3 font-medium">Date</th>
             </tr>
           </thead>
           <tbody>
-            {tickets.map((t) => (
-              <tr key={t.id} className="border-b border-white/5 text-sm text-text-crisp hover:bg-white/5 transition-colors">
-                <td className="px-6 py-4 font-mono text-xs text-text-muted">{t.id}</td>
-                <td className="px-6 py-4 font-medium">{t.subject}</td>
-                <td className="px-6 py-4">
-                  <span
-                    className={`rounded-full px-3 py-0.5 text-xs font-medium ${
-                      t.status === "Open"
-                        ? "bg-yellow-500/20 text-yellow-400"
-                        : t.status === "In Progress"
-                          ? "bg-cyber-violet/20 text-cyber-violet"
-                          : "bg-radiant-emerald/20 text-radiant-emerald"
-                    }`}
-                  >
-                    {t.status}
-                  </span>
+            {tickets.length === 0 ? (
+              <tr><td colSpan={4} className="px-5 py-10 text-center text-text-muted text-sm">No tickets yet.</td></tr>
+            ) : tickets.map((t: any) => (
+              <tr key={t._id} className="border-b border-border-light text-sm text-text-primary hover:bg-gray-50">
+                <td className="px-5 py-4 font-medium">{t.subject}</td>
+                <td className="px-5 py-4">
+                  <span className="rounded-full bg-gaming-purple/10 px-2.5 py-0.5 text-xs text-gaming-purple">{t.status}</span>
                 </td>
-                <td className="px-6 py-4">
-                  <span
-                    className={`rounded-full px-3 py-0.5 text-xs ${
-                      t.priority === "High"
-                        ? "bg-red-500/20 text-red-400"
-                        : t.priority === "Medium"
-                          ? "bg-yellow-500/20 text-yellow-400"
-                          : "bg-white/10 text-text-muted"
-                    }`}
-                  >
-                    {t.priority}
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-text-muted">{t.date}</td>
+                <td className="px-5 py-4 text-text-muted">{t.priority}</td>
+                <td className="px-5 py-4 text-text-muted">{new Date(t.createdAt).toLocaleDateString()}</td>
               </tr>
             ))}
           </tbody>

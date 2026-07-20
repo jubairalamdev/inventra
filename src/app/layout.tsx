@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Inventra — AI Product Catalog",
+  title: "Inventra — Gaming Gadgets Ecommerce",
   description:
-    "Next-generation AI product catalog and e-commerce platform for production-grade AI assets.",
+    "Premium gaming gadgets, peripherals, and accessories. Keyboards, mice, headsets, controllers, and more.",
 };
 
 export default function RootLayout({
@@ -29,7 +29,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-slate-deep text-text-crisp">
+      <body className="min-h-full flex flex-col bg-bg-main text-text-primary">
         <Providers>{children}</Providers>
       </body>
     </html>

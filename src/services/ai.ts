@@ -1,36 +1,37 @@
 import { api } from "./http";
 
 export interface GeneratePayload {
-  title?: string;
+  name: string;
   category?: string;
   keywords?: string;
-  tone?: string;
 }
 
 export interface GenerateResponse {
-  title: string;
   description: string;
-  category: string;
+  longDescription: string;
   tags: string[];
+  specs: Record<string, string>;
   price: number;
-  technicalSpecs: Record<string, string>;
-  useCases: string[];
 }
 
 export interface RecommendPayload {
-  query: string;
+  productId?: string;
+  category?: string;
   limit?: number;
 }
 
 export interface RecommendResponse {
-  recommendations: Array<{
-    _id: string;
-    title: string;
-    category: string;
-    price: number;
-    rating: number;
-    matchScore: number;
-  }>;
+  recommendations: Product[];
+}
+
+interface Product {
+  _id: string;
+  name: string;
+  category: string;
+  price: number;
+  rating: number;
+  description?: string;
+  images?: string[];
 }
 
 export const aiService = {
@@ -39,7 +40,6 @@ export const aiService = {
       method: "POST",
       body: JSON.stringify(payload),
     }),
-
   recommend: (payload: RecommendPayload) =>
     api<RecommendResponse>("/ai/recommend", {
       method: "POST",

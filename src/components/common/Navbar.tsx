@@ -14,17 +14,15 @@ import { Avatar, AvatarFallback } from "@heroui/react/avatar";
 import { useAuth } from "@/hooks/useAuth";
 
 const loggedOutLinks = [
-  { href: "/explore", label: "Explore Catalog" },
-  { href: "/#features", label: "Features & Benchmarks" },
-  { href: "/#pricing", label: "Pricing / API Access" },
+  { href: "/shop", label: "Shop" },
+  { href: "/#categories", label: "Categories" },
+  { href: "/#deals", label: "Deals" },
 ];
 
 const loggedInLinks = [
-  { href: "/explore", label: "Dashboard / Explore" },
-  { href: "/items/add", label: "Create AI Asset" },
-  { href: "/items/manage", label: "Manage Inventory" },
-  { href: "/analytics", label: "Analytics Panel" },
-  { href: "/support", label: "Support Desk" },
+  { href: "/shop", label: "Shop" },
+  { href: "/orders", label: "My Orders" },
+  { href: "/support", label: "Support" },
 ];
 
 export default function Navbar() {
@@ -32,17 +30,19 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, logout } = useAuth();
   const isLoggedIn = !!user;
+  const isAdmin = user?.role === "admin";
 
   const links = isLoggedIn ? loggedInLinks : loggedOutLinks;
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-white/10 bg-slate-deep/70 backdrop-blur-xl">
+    <nav className="sticky top-0 z-50 border-b border-border-light bg-white/80 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <Link
           href="/"
-          className="text-xl font-bold tracking-tight text-text-crisp"
+          className="text-xl font-bold tracking-tight text-text-primary"
         >
-          Inventra
+          <span className="text-gaming-purple">Inventra</span>
+          <span className="ml-1 text-sm font-normal text-text-muted">Gaming</span>
         </Link>
 
         <div className="hidden items-center gap-6 md:flex">
@@ -50,10 +50,10 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`text-sm transition-colors ${
+              className={`text-sm font-medium transition-colors ${
                 pathname === link.href
-                  ? "text-cyber-violet"
-                  : "text-text-muted hover:text-text-crisp"
+                  ? "text-gaming-purple"
+                  : "text-text-muted hover:text-text-primary"
               }`}
             >
               {link.label}
@@ -62,6 +62,15 @@ export default function Navbar() {
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
+          <Link
+            href="/cart"
+            className="relative text-text-muted hover:text-text-primary transition-colors"
+            aria-label="Cart"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+            </svg>
+          </Link>
           {isLoggedIn ? (
             <Dropdown>
               <DropdownTrigger>
@@ -69,7 +78,7 @@ export default function Navbar() {
                   type="button"
                   className="flex items-center gap-2 outline-none"
                 >
-                  <Avatar className="bg-cyber-violet" size="sm">
+                  <Avatar className="bg-gaming-purple text-white" size="sm">
                     <AvatarFallback>
                       {user.fullName
                         ?.split(" ")
@@ -85,9 +94,14 @@ export default function Navbar() {
                   <DropdownItem id="profile" textValue="Profile">
                     Profile
                   </DropdownItem>
-                  <DropdownItem id="settings" textValue="Settings">
-                    Settings
+                  <DropdownItem id="orders" textValue="Orders" href="/orders">
+                    Orders
                   </DropdownItem>
+                  {isAdmin && (
+                    <DropdownItem id="admin" textValue="Admin" href="/admin/products">
+                      Admin Panel
+                    </DropdownItem>
+                  )}
                   <DropdownItem id="logout" textValue="Logout">
                     Logout
                   </DropdownItem>
@@ -98,15 +112,15 @@ export default function Navbar() {
             <div className="flex items-center gap-2">
               <Link
                 href="/login"
-                className="rounded-lg border border-white/20 px-4 py-1.5 text-sm text-text-crisp transition-colors hover:bg-white/10"
+                className="rounded-lg border border-border-light px-4 py-1.5 text-sm text-text-primary transition-colors hover:bg-gray-100"
               >
                 Log in
               </Link>
               <Link
                 href="/register"
-                className="rounded-lg bg-cyber-violet px-4 py-1.5 text-sm text-white transition-colors hover:bg-cyber-violet/80"
+                className="rounded-lg bg-gaming-purple px-4 py-1.5 text-sm text-white transition-colors hover:bg-gaming-purple/80"
               >
-                Get Started
+                Sign Up
               </Link>
             </div>
           )}
@@ -114,46 +128,24 @@ export default function Navbar() {
 
         <button
           type="button"
-          className="text-text-muted hover:text-text-crisp md:hidden"
+          className="text-text-muted hover:text-text-primary md:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
           {mobileOpen ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           )}
         </button>
       </div>
 
       {mobileOpen && (
-        <div className="border-t border-white/10 bg-slate-deep px-4 pb-4 md:hidden">
+        <div className="border-t border-border-light bg-white px-4 pb-4 md:hidden">
           <div className="flex flex-col gap-3 pt-3">
             {links.map((link) => (
               <Link
@@ -162,14 +154,21 @@ export default function Navbar() {
                 onClick={() => setMobileOpen(false)}
                 className={`text-sm transition-colors ${
                   pathname === link.href
-                    ? "text-cyber-violet"
-                    : "text-text-muted hover:text-text-crisp"
+                    ? "text-gaming-purple"
+                    : "text-text-muted hover:text-text-primary"
                 }`}
               >
                 {link.label}
               </Link>
             ))}
-            <div className="border-t border-white/10 pt-3">
+            <Link
+              href="/cart"
+              onClick={() => setMobileOpen(false)}
+              className="text-sm text-text-muted hover:text-text-primary"
+            >
+              Cart
+            </Link>
+            <div className="border-t border-border-light pt-3">
               {isLoggedIn ? (
                 <button
                   type="button"
@@ -177,23 +176,17 @@ export default function Navbar() {
                     logout();
                     setMobileOpen(false);
                   }}
-                  className="text-sm text-text-muted hover:text-text-crisp"
+                  className="text-sm text-text-muted hover:text-text-primary"
                 >
                   Log out
                 </button>
               ) : (
                 <div className="flex flex-col gap-2">
-                  <Link
-                    href="/login"
-                    className="rounded-lg border border-white/20 px-4 py-1.5 text-sm text-text-crisp transition-colors hover:bg-white/10"
-                  >
+                  <Link href="/login" className="rounded-lg border border-border-light px-4 py-1.5 text-sm text-text-primary hover:bg-gray-100">
                     Log in
                   </Link>
-                  <Link
-                    href="/register"
-                    className="rounded-lg bg-cyber-violet px-4 py-1.5 text-sm text-white transition-colors hover:bg-cyber-violet/80"
-                  >
-                    Get Started
+                  <Link href="/register" className="rounded-lg bg-gaming-purple px-4 py-1.5 text-sm text-white hover:bg-gaming-purple/80">
+                    Sign Up
                   </Link>
                 </div>
               )}

@@ -1,96 +1,61 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { signIn } from "@/lib/auth-client";
+import { toast } from "react-toastify";
+import { useAuth } from "@/hooks/useAuth";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
     setLoading(true);
-    const { error: err } = await signIn.email({ email, password });
-    if (err) {
-      setError(err.message || "Login failed");
+    try {
+      await login(email, password);
+      toast.success("Logged in");
+      const cb = searchParams.get("callbackUrl");
+      router.push(cb || "/shop");
+    } catch (err: any) {
+      toast.error(err.message || "Login failed");
+    } finally {
       setLoading(false);
-      return;
     }
-    router.push("/explore");
-  };
-
-  const handleGoogle = async () => {
-    await signIn.social({ provider: "google", callbackURL: "/explore" });
   };
 
   return (
-    <div className="flex min-h-[80vh] items-center justify-center px-4">
-      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-dark-card/50 p-8 backdrop-blur-sm">
-        <div className="text-center mb-8">
-          <Link href="/" className="text-2xl font-bold text-text-crisp">Inventra</Link>
-          <p className="text-text-muted mt-2">Sign in to your account</p>
-        </div>
-
+    <div className="mx-auto flex min-h-[60vh] max-w-md items-center px-4 py-16">
+      <div className="w-full">
+        <h1 className="text-3xl font-bold text-text-primary text-center mb-2">Welcome Back</h1>
+        <p className="text-text-muted text-center mb-8">Log in to your Inventra account</p>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="email" className="text-sm font-medium text-text-crisp">Email</label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              required
-              className="mt-1 w-full rounded-xl border border-white/10 bg-slate-deep px-4 py-3 text-sm text-text-crisp placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-cyber-violet"
-            />
-          </div>
-          <div>
-            <label htmlFor="password" className="text-sm font-medium text-text-crisp">Password</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              required
-              className="mt-1 w-full rounded-xl border border-white/10 bg-slate-deep px-4 py-3 text-sm text-text-crisp placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-cyber-violet"
-            />
-          </div>
-
-          {error && <p className="text-sm text-red-400">{error}</p>}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full rounded-xl bg-cyber-violet py-3 text-sm font-semibold text-white transition-all hover:bg-cyber-violet/90 disabled:opacity-50"
-          >
-            {loading ? "Signing in..." : "Sign In"}
+          <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required
+            className="w-full rounded-xl border border-border-light bg-white px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-gaming-purple" />
+          <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required
+            className="w-full rounded-xl border border-border-light bg-white px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-gaming-purple" />
+          <button type="submit" disabled={loading}
+            className="w-full rounded-xl bg-gaming-purple py-3 text-sm font-semibold text-white hover:bg-gaming-purple/90 disabled:opacity-50 transition-all">
+            {loading ? "Logging in..." : "Log In"}
           </button>
         </form>
-
-        <div className="relative my-6">
-          <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/10" /></div>
-          <div className="relative flex justify-center"><span className="bg-dark-card/50 px-4 text-sm text-text-muted">or continue with</span></div>
-        </div>
-
-        <button
-          onClick={handleGoogle}
-          className="w-full rounded-xl border border-white/10 bg-white/5 py-3 text-sm font-medium text-text-crisp transition-all hover:bg-white/10"
-        >
-          Google
-        </button>
-
         <p className="mt-6 text-center text-sm text-text-muted">
-          Don&apos;t have an account?{" "}
-          <Link href="/register" className="text-cyber-violet hover:underline">Create one</Link>
+          Don&apos;t have an account? <Link href="/register" className="text-gaming-purple hover:underline">Sign up</Link>
         </p>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="mx-auto flex min-h-[60vh] max-w-md items-center justify-center px-4 py-16"><p className="text-text-muted">Loading...</p></div>}>
+      <LoginForm />
+    </Suspense>
   );
 }

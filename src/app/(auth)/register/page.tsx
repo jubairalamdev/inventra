@@ -3,90 +3,54 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { signUp } from "@/lib/auth-client";
+import { toast } from "react-toastify";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function RegisterPage() {
   const router = useRouter();
+  const { register } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    setLoading(true);
-    const { error: err } = await signUp.email({ name, email, password });
-    if (err) {
-      setError(err.message || "Registration failed");
-      setLoading(false);
+    if (password.length < 8) {
+      toast.error("Password must be at least 8 characters");
       return;
     }
-    router.push("/explore");
+    setLoading(true);
+    try {
+      await register(email, password, name);
+      toast.success("Account created!");
+      router.push("/shop");
+    } catch (err: any) {
+      toast.error(err.message || "Registration failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="flex min-h-[80vh] items-center justify-center px-4">
-      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-dark-card/50 p-8 backdrop-blur-sm">
-        <div className="text-center mb-8">
-          <Link href="/" className="text-2xl font-bold text-text-crisp">Inventra</Link>
-          <p className="text-text-muted mt-2">Create your account</p>
-        </div>
-
+    <div className="mx-auto flex min-h-[60vh] max-w-md items-center px-4 py-16">
+      <div className="w-full">
+        <h1 className="text-3xl font-bold text-text-primary text-center mb-2">Create Account</h1>
+        <p className="text-text-muted text-center mb-8">Join Inventra Gaming today</p>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="name" className="text-sm font-medium text-text-crisp">Full Name</label>
-            <input
-              id="name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="John Doe"
-              required
-              className="mt-1 w-full rounded-xl border border-white/10 bg-slate-deep px-4 py-3 text-sm text-text-crisp placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-cyber-violet"
-            />
-          </div>
-          <div>
-            <label htmlFor="email" className="text-sm font-medium text-text-crisp">Email</label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              required
-              className="mt-1 w-full rounded-xl border border-white/10 bg-slate-deep px-4 py-3 text-sm text-text-crisp placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-cyber-violet"
-            />
-          </div>
-          <div>
-            <label htmlFor="password" className="text-sm font-medium text-text-crisp">Password</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="•••••••• (min 8 chars)"
-              required
-              minLength={8}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-slate-deep px-4 py-3 text-sm text-text-crisp placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-cyber-violet"
-            />
-          </div>
-
-          {error && <p className="text-sm text-red-400">{error}</p>}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full rounded-xl bg-cyber-violet py-3 text-sm font-semibold text-white transition-all hover:bg-cyber-violet/90 disabled:opacity-50"
-          >
-            {loading ? "Creating account..." : "Create Account"}
+          <input type="text" placeholder="Full Name" value={name} onChange={(e) => setName(e.target.value)} required
+            className="w-full rounded-xl border border-border-light bg-white px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-gaming-purple" />
+          <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required
+            className="w-full rounded-xl border border-border-light bg-white px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-gaming-purple" />
+          <input type="password" placeholder="Password (min 8 characters)" value={password} onChange={(e) => setPassword(e.target.value)} required
+            className="w-full rounded-xl border border-border-light bg-white px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-gaming-purple" />
+          <button type="submit" disabled={loading}
+            className="w-full rounded-xl bg-gaming-purple py-3 text-sm font-semibold text-white hover:bg-gaming-purple/90 disabled:opacity-50 transition-all">
+            {loading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
-
         <p className="mt-6 text-center text-sm text-text-muted">
-          Already have an account?{" "}
-          <Link href="/login" className="text-cyber-violet hover:underline">Sign in</Link>
+          Already have an account? <Link href="/login" className="text-gaming-purple hover:underline">Log in</Link>
         </p>
       </div>
     </div>
