@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-border-light bg-white">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid gap-8 sm:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-4">
           <div>
             <Link
           href="/"
@@ -31,6 +31,19 @@ export default function Footer() {
               <Link href="/shop?category=Mice" className="text-sm text-text-muted hover:text-gaming-purple">Mice</Link>
               <Link href="/shop?category=Headsets" className="text-sm text-text-muted hover:text-gaming-purple">Headsets</Link>
               <Link href="/shop?category=Controllers" className="text-sm text-text-muted hover:text-gaming-purple">Controllers</Link>
+            </div>
+          </div>
+          <div>
+            <h4 className="font-semibold text-text-primary mb-3">Contact</h4>
+            <div className="flex flex-col gap-2 text-sm text-text-muted">
+              <span>support@inventra.com</span>
+              <span>+1 (555) 123-4567</span>
+              <span>123 Gaming Lane, SF</span>
+              <div className="flex gap-3 mt-1">
+                <span className="text-text-muted">Twitter</span>
+                <span className="text-text-muted">Instagram</span>
+                <span className="text-text-muted">GitHub</span>
+              </div>
             </div>
           </div>
         </div>

@@ -16,6 +16,8 @@ const loggedInLinks = [
   { href: "/shop", label: "Shop" },
   { href: "/orders", label: "My Orders" },
   { href: "/support", label: "Support" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function Navbar() {

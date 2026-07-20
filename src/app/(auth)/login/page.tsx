@@ -48,6 +48,10 @@ function LoginForm() {
             className="w-full rounded-xl bg-gaming-purple py-3 text-sm font-semibold text-white hover:bg-gaming-purple/90 disabled:opacity-50 transition-all">
             {loading ? "Logging in..." : "Log In"}
           </button>
+          <button type="button" onClick={() => { setEmail("test@jubair.com"); setPassword("A12345678a"); }}
+            className="w-full rounded-xl border border-gaming-purple/30 py-3 text-sm font-semibold text-gaming-purple hover:bg-gaming-purple/5 transition-all">
+            Demo Login
+          </button>
         </form>
         <p className="mt-6 text-center text-sm text-text-muted">
           Don&apos;t have an account? <Link href="/register" className="text-gaming-purple hover:underline">Sign up</Link>
