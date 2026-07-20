@@ -74,10 +74,7 @@ export default function Navbar() {
           {isLoggedIn ? (
             <Dropdown>
               <DropdownTrigger>
-                <button
-                  type="button"
-                  className="flex items-center gap-2 outline-none"
-                >
+                <div className="flex items-center gap-2 outline-none cursor-pointer">
                   <Avatar className="bg-gaming-purple text-white" size="sm">
                     <AvatarFallback>
                       {user.fullName
@@ -87,7 +84,7 @@ export default function Navbar() {
                         .toUpperCase() || "U"}
                     </AvatarFallback>
                   </Avatar>
-                </button>
+                </div>
               </DropdownTrigger>
               <DropdownPopover placement="bottom end">
                 <DropdownMenu onAction={(key) => key === "logout" && logout()}>

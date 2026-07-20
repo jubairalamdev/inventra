@@ -1,22 +1,39 @@
+import { authClient } from "@/lib/auth-client"
+
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api"
+
+let cachedToken: string | null | undefined = undefined
+
+export async function getAuthToken(): Promise<string | null> {
+  if (cachedToken !== undefined) return cachedToken
+  try {
+    const res = await authClient.getSession()
+    cachedToken = res.data?.session?.token ?? null
+    return cachedToken
+  } catch {
+    cachedToken = null
+    return null
+  }
+}
+
+export function clearTokenCache() {
+  cachedToken = undefined
+}
 
 export async function api<T = any>(
   path: string,
   options: RequestInit = {},
 ): Promise<T> {
-  const token =
-    typeof window !== "undefined"
-      ? (await import("@/lib/auth-client")).authClient.getSession?.()?.then((s) => s.data?.session?.token)
-      : undefined
-
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     ...(options.headers as Record<string, string>),
   }
 
-  const resolvedToken = await token
-  if (resolvedToken) {
-    headers["Authorization"] = `Bearer ${resolvedToken}`
+  if (typeof window !== "undefined") {
+    const token = await getAuthToken()
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`
+    }
   }
 
   const res = await fetch(`${API_BASE}${path}`, {
