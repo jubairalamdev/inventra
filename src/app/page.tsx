@@ -2,6 +2,24 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
+import ProductCard, { ProductCardSkeleton } from "@/components/cards/ProductCard";
+import Image from "next/image";
+
+const API = process.env.NEXT_PUBLIC_API_URL;
+
+const categoryMeta: Record<string, { icon: string; desc: string; color: string }> = {
+  Keyboards: { icon: "⌨️", desc: "Mechanical, wireless, custom builds", color: "from-violet-500/20 to-purple-500/20" },
+  Mice: { icon: "🖱️", desc: "Esports, MMO, ergonomic designs", color: "from-pink-500/20 to-rose-500/20" },
+  Headsets: { icon: "🎧", desc: "Wireless, noise-cancelling, surround", color: "from-cyan-500/20 to-blue-500/20" },
+  Controllers: { icon: "🎮", desc: "Console & PC gamepads", color: "from-amber-500/20 to-orange-500/20" },
+  Mousepads: { icon: "🧩", desc: "Desk mats, hard pads, RGB", color: "from-emerald-500/20 to-teal-500/20" },
+  Chairs: { icon: "🪑", desc: "Ergonomic gaming chairs", color: "from-purple-500/20 to-indigo-500/20" },
+  Monitors: { icon: "🖥️", desc: "Gaming monitors, high refresh rate", color: "from-blue-500/20 to-indigo-500/20" },
+  Speakers: { icon: "🔊", desc: "Gaming speakers, soundbars", color: "from-cyan-500/20 to-teal-500/20" },
+  Webcams: { icon: "📷", desc: "Streaming cameras, accessories", color: "from-gray-500/20 to-slate-500/20" },
+  "Capture Cards": { icon: "🎬", desc: "Streaming capture devices", color: "from-red-500/20 to-rose-500/20" },
+};
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -12,21 +30,6 @@ const itemVariants = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
 };
-
-const categories = [
-  { name: "Keyboards", icon: "⌨️", desc: "Mechanical, wireless, custom builds", color: "from-violet-500/20 to-purple-500/20" },
-  { name: "Mice", icon: "🖱️", desc: "Esports, MMO, ergonomic designs", color: "from-pink-500/20 to-rose-500/20" },
-  { name: "Headsets", icon: "🎧", desc: "Wireless, noise-cancelling, surround", color: "from-cyan-500/20 to-blue-500/20" },
-  { name: "Controllers", icon: "🎮", desc: "Console & PC gamepads", color: "from-amber-500/20 to-orange-500/20" },
-  { name: "Mousepads", icon: "🧩", desc: "Desk mats, hard pads, RGB", color: "from-emerald-500/20 to-teal-500/20" },
-  { name: "Chairs", icon: "🪑", desc: "Ergonomic gaming chairs", color: "from-purple-500/20 to-indigo-500/20" },
-];
-
-const featured = [
-  { name: "Phantom X Pro Mechanical Keyboard", brand: "Corsair", price: 189.99, rating: 4.8, badge: "Bestseller" },
-  { name: "Apex Wireless Gaming Mouse", brand: "Razer", price: 129.99, rating: 4.7, badge: "New Arrival" },
-  { name: "Quantum 7.1 Surround Headset", brand: "SteelSeries", price: 159.99, rating: 4.9, badge: "Top Rated" },
-];
 
 const benefits = [
   { icon: "🚀", title: "Free Shipping", desc: "Free shipping on all orders over $50. Fast delivery worldwide." },
@@ -44,6 +47,15 @@ const testimonials = [
 ];
 
 export default function HomePage() {
+  const { data, isLoading } = useQuery({
+    queryKey: ["home-featured"],
+    queryFn: async () => {
+      const res = await fetch(`${API}/products?sort=rating&limit=3`);
+      if (!res.ok) throw new Error("Failed to fetch");
+      return res.json() as Promise<{ items: any[]; nextCursor: string | null; categories: string[]; brands: string[] }>;
+    },
+  });
+
   return (
     <>
       {/* ─── Hero ─── */}
@@ -114,7 +126,7 @@ export default function HomePage() {
                 animate={{ y: [0, -18, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               >
-                <div className="relative h-64 w-64 sm:h-80 sm:w-80 lg:h-96 lg:w-96">
+                <div className="relative h-64 w-64 sm:h-80 sm:w-80 lg:h-120 lg:w-120">
                   <div className="absolute inset-0 rounded-full bg-gradient-to-br from-gaming-purple/20 via-gaming-pink/10 to-gaming-cyan/20 blur-3xl" />
                   <div className="relative flex h-full w-full items-center justify-center">
                     <motion.span
@@ -122,7 +134,7 @@ export default function HomePage() {
                       animate={{ rotate: [0, -5, 5, -3, 0] }}
                       transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
                     >
-                      🎮
+                      <Image src="/controller.png" alt="Gaming Controller" width={600} height={600} className="h-auto w-auto" />
                     </motion.span>
                   </div>
                 </div>
@@ -286,22 +298,25 @@ export default function HomePage() {
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
         >
-          {categories.map((cat) => (
-            <motion.div
-              key={cat.name}
-              variants={itemVariants}
-              whileHover={{ scale: 1.03, y: -4 }}
-            >
-              <Link
-                href={`/shop?category=${cat.name}`}
-                className={`block rounded-xl border border-border-light bg-white p-6 shadow-sm transition-all hover:shadow-md bg-gradient-to-br ${cat.color}`}
+          {(data?.categories ?? []).map((cat: string) => {
+            const meta = categoryMeta[cat] || { icon: "📦", desc: "Browse our collection", color: "from-gray-500/20 to-slate-500/20" };
+            return (
+              <motion.div
+                key={cat}
+                variants={itemVariants}
+                whileHover={{ scale: 1.03, y: -4 }}
               >
-                <span className="text-3xl">{cat.icon}</span>
-                <h3 className="mt-3 text-lg font-semibold text-text-primary">{cat.name}</h3>
-                <p className="text-sm text-text-muted mt-1">{cat.desc}</p>
-              </Link>
-            </motion.div>
-          ))}
+                <Link
+                  href={`/shop?category=${cat}`}
+                  className={`block rounded-xl border border-border-light bg-white p-6 shadow-sm transition-all hover:shadow-md bg-gradient-to-br ${meta.color}`}
+                >
+                  <span className="text-3xl">{meta.icon}</span>
+                  <h3 className="mt-3 text-lg font-semibold text-text-primary">{cat}</h3>
+                  <p className="text-sm text-text-muted mt-1">{meta.desc}</p>
+                </Link>
+              </motion.div>
+            );
+          })}
         </motion.div>
       </motion.section>
 
@@ -423,36 +438,11 @@ export default function HomePage() {
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
           >
-            {featured.map((item) => (
-              <motion.div
-                key={item.name}
-                variants={itemVariants}
-                whileHover={{ y: -6 }}
-                className="rounded-xl border border-border-light bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow"
-              >
-                <div className="h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center relative">
-                  <span className="text-5xl opacity-20 select-none">🎮</span>
-                  <span className="absolute top-3 right-3 rounded-full bg-gaming-amber/10 px-2.5 py-0.5 text-xs font-medium text-gaming-amber border border-gaming-amber/20">
-                    {item.badge}
-                  </span>
-                </div>
-                <div className="p-5">
-                  <span className="rounded-full bg-gaming-purple/10 px-2.5 py-0.5 text-xs font-medium text-gaming-purple">{item.brand}</span>
-                  <h3 className="text-lg font-semibold text-text-primary mt-2">{item.name}</h3>
-                  <div className="flex items-center mt-2 gap-1">
-                    <span className="text-gaming-amber text-sm">{'★'.repeat(Math.round(item.rating))}</span>
-                    <span className="text-xs text-text-muted">({item.rating})</span>
-                  </div>
-                  <div className="flex items-center justify-between mt-4 pt-4 border-t border-border-light">
-                    <span className="text-xl font-bold text-text-primary">${item.price.toFixed(2)}</span>
-                    <Link href={`/shop?q=${encodeURIComponent(item.name.split(" ").slice(0, 2).join(" "))}`}
-                      className="text-sm font-medium text-gaming-purple hover:underline">
-                      View →
-                    </Link>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+            {isLoading
+              ? Array.from({ length: 3 }).map((_, i) => <ProductCardSkeleton key={i} />)
+              : data?.items?.map((item: any) => (
+                  <ProductCard key={item._id} {...item} />
+                ))}
           </motion.div>
         </div>
       </motion.section>
