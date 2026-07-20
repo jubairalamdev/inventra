@@ -132,6 +132,86 @@ export default function HomePage() {
         </motion.div>
       </section>
 
+      {/* ─── AI Features ─── */}
+      <section className="relative overflow-hidden bg-gradient-to-r from-gaming-purple/5 via-white to-gaming-cyan/5 border-t border-border-light">
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <span className="inline-block rounded-full bg-gaming-purple/10 px-4 py-1.5 text-sm font-medium text-gaming-purple mb-4">Powered by AI</span>
+            <h2 className="text-3xl font-bold text-text-primary sm:text-4xl">
+              Smarter Shopping with <span className="text-gaming-purple">AI</span>
+            </h2>
+            <p className="mt-3 text-text-muted max-w-xl mx-auto">
+              Our AI engine helps you discover the perfect gear and makes managing your store effortless.
+            </p>
+          </motion.div>
+
+          <div className="grid gap-8 md:grid-cols-2">
+            <motion.div
+              className="rounded-2xl border border-border-light bg-white p-8 shadow-sm hover:shadow-md transition-shadow"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gaming-purple/10">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gaming-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 0 0-2.455 2.456Z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-text-primary">AI Product Recommendations</h3>
+                  <p className="text-sm text-text-muted">Personalized picks just for you</p>
+                </div>
+              </div>
+              <p className="text-text-muted leading-relaxed">
+                Browse our catalog and let AI suggest complementary products you'll love. Our recommendation engine analyzes product categories, ratings, and pricing to surface the best gear to pair with your setup — so you never miss the perfect match.
+              </p>
+              <Link
+                href="/shop"
+                className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-gaming-purple hover:text-gaming-purple/80 transition-colors"
+              >
+                Try AI recommendations <span>→</span>
+              </Link>
+            </motion.div>
+
+            <motion.div
+              className="rounded-2xl border border-border-light bg-white p-8 shadow-sm hover:shadow-md transition-shadow"
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gaming-purple/10">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gaming-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-text-primary">AI Product Generation</h3>
+                  <p className="text-sm text-text-muted">Create listings in seconds</p>
+                </div>
+              </div>
+              <p className="text-text-muted leading-relaxed">
+                Store owners can generate complete product listings with a single click. Just enter a product name and optional keywords — our AI writes the description, specs, tags, and suggests a price. Perfect for quickly populating your catalog or drafting new arrivals.
+              </p>
+              <Link
+                href="/admin/products/add"
+                className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-gaming-purple hover:text-gaming-purple/80 transition-colors"
+              >
+                Try AI generation <span>→</span>
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* ─── Why Choose Us ─── */}
       <motion.section
         className="relative bg-white border-t border-border-light"
