@@ -13,17 +13,6 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
 };
 
-const floatIcons = [
-  { icon: "🖱️", x: "10%", y: "15%", delay: 0, duration: 4 },
-  { icon: "⌨️", x: "85%", y: "10%", delay: 0.5, duration: 5 },
-  { icon: "🎧", x: "90%", y: "70%", delay: 1, duration: 4.5 },
-  { icon: "🎮", x: "5%", y: "75%", delay: 0.3, duration: 5.5 },
-  { icon: "🕹️", x: "50%", y: "5%", delay: 0.8, duration: 3.8 },
-  { icon: "💻", x: "95%", y: "40%", delay: 1.2, duration: 4.2 },
-  { icon: "⚡", x: "8%", y: "45%", delay: 0.6, duration: 3.5 },
-  { icon: "🔥", x: "75%", y: "85%", delay: 0.9, duration: 4.8 },
-];
-
 const categories = [
   { name: "Keyboards", icon: "⌨️", desc: "Mechanical, wireless, custom builds", color: "from-violet-500/20 to-purple-500/20" },
   { name: "Mice", icon: "🖱️", desc: "Esports, MMO, ergonomic designs", color: "from-pink-500/20 to-rose-500/20" },
@@ -54,26 +43,27 @@ const testimonials = [
   { name: "Marcus Johnson", handle: "@marcj", text: "Been buying from Inventra for 2 years. Always top-tier products and lightning fast shipping. Highly recommend.", rating: 5, role: "PC Enthusiast" },
 ];
 
+function DecorativeIcons() {
+  return (
+    <>
+      <span className="absolute left-[8%] top-[12%] text-3xl opacity-15 select-none">🖱️</span>
+      <span className="absolute right-[12%] top-[8%] text-3xl opacity-15 select-none">⌨️</span>
+      <span className="absolute right-[6%] bottom-[20%] text-2xl opacity-15 select-none">🎧</span>
+      <span className="absolute left-[5%] bottom-[15%] text-3xl opacity-15 select-none">🕹️</span>
+      <span className="absolute left-[45%] top-[5%] text-2xl opacity-10 select-none">⚡</span>
+      <span className="absolute right-[8%] top-[50%] text-2xl opacity-10 select-none">💻</span>
+    </>
+  );
+}
+
 export default function HomePage() {
   return (
     <>
-      {/* ─── Floating Icons ─── */}
-      {floatIcons.map((item) => (
-        <motion.span
-          key={item.icon}
-          className="fixed z-0 pointer-events-none text-3xl sm:text-4xl"
-          style={{ left: item.x, top: item.y }}
-          animate={{ y: [0, -20, 0] }}
-          transition={{ duration: item.duration, repeat: Infinity, delay: item.delay, ease: "easeInOut" }}
-        >
-          {item.icon}
-        </motion.span>
-      ))}
-
       {/* ─── Hero ─── */}
       <section className="relative overflow-hidden bg-gradient-to-br from-gaming-purple/5 via-white to-gaming-cyan/5">
+        <DecorativeIcons />
         <motion.div
-          className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8"
+          className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -127,7 +117,6 @@ export default function HomePage() {
               </motion.div>
             </motion.div>
 
-            {/* Controller animation */}
             <motion.div
               className="flex-1 flex items-center justify-center"
               initial={{ opacity: 0, x: 100 }}
@@ -159,11 +148,13 @@ export default function HomePage() {
 
       {/* ─── Why Choose Us ─── */}
       <motion.section
-        className="bg-white border-t border-border-light"
+        className="relative bg-white border-t border-border-light"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-100px" }}
       >
+        <span className="absolute right-[10%] top-[8%] text-3xl opacity-10 select-none">🛡️</span>
+        <span className="absolute left-[6%] bottom-[10%] text-2xl opacity-10 select-none">🚀</span>
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <motion.h2
             className="text-3xl font-bold text-text-primary text-center mb-2"
@@ -208,11 +199,14 @@ export default function HomePage() {
       {/* ─── Categories ─── */}
       <motion.section
         id="categories"
-        className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8"
+        className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-100px" }}
       >
+        <span className="absolute right-[3%] top-[10%] text-3xl opacity-10 select-none">🎮</span>
+        <span className="absolute left-[4%] bottom-[15%] text-2xl opacity-10 select-none">⌨️</span>
+        <span className="absolute right-[10%] bottom-[25%] text-2xl opacity-10 select-none">🖱️</span>
         <motion.h2
           className="text-3xl font-bold text-text-primary text-center mb-2"
           initial={{ opacity: 0, y: 20 }}
@@ -252,11 +246,13 @@ export default function HomePage() {
 
       {/* ─── Customer Testimonials ─── */}
       <motion.section
-        className="bg-gradient-to-r from-gaming-purple/5 via-white to-gaming-cyan/5 border-y border-border-light"
+        className="relative bg-gradient-to-r from-gaming-purple/5 via-white to-gaming-cyan/5 border-y border-border-light"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-100px" }}
       >
+        <span className="absolute left-[5%] top-[10%] text-2xl opacity-10 select-none">💬</span>
+        <span className="absolute right-[8%] bottom-[15%] text-3xl opacity-10 select-none">⭐</span>
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <motion.h2
             className="text-3xl font-bold text-text-primary text-center mb-2"
@@ -306,11 +302,13 @@ export default function HomePage() {
 
       {/* ─── Brand Partners ─── */}
       <motion.section
-        className="bg-white"
+        className="relative bg-white"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-100px" }}
       >
+        <span className="absolute right-[12%] top-[15%] text-2xl opacity-10 select-none">🏷️</span>
+        <span className="absolute left-[10%] bottom-[20%] text-3xl opacity-10 select-none">🔥</span>
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <motion.p
             className="text-center text-sm font-medium uppercase tracking-widest text-text-muted mb-8"
@@ -344,11 +342,13 @@ export default function HomePage() {
       {/* ─── Featured Products ─── */}
       <motion.section
         id="deals"
-        className="bg-gradient-to-r from-gaming-purple/5 via-white to-gaming-cyan/5 border-y border-border-light"
+        className="relative bg-gradient-to-r from-gaming-purple/5 via-white to-gaming-cyan/5 border-y border-border-light"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-100px" }}
       >
+        <span className="absolute left-[4%] top-[8%] text-3xl opacity-10 select-none">🏆</span>
+        <span className="absolute right-[6%] bottom-[12%] text-2xl opacity-10 select-none">🎯</span>
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <motion.h2
             className="text-3xl font-bold text-text-primary text-center mb-2"
@@ -376,13 +376,7 @@ export default function HomePage() {
                 className="rounded-xl border border-border-light bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow"
               >
                 <div className="h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center relative">
-                  <motion.span
-                    className="text-5xl opacity-20 select-none"
-                    animate={{ rotate: [0, 10, -10, 0] }}
-                    transition={{ duration: 4, repeat: Infinity }}
-                  >
-                    🎮
-                  </motion.span>
+                  <span className="text-5xl opacity-20 select-none">🎮</span>
                   <span className="absolute top-3 right-3 rounded-full bg-gaming-amber/10 px-2.5 py-0.5 text-xs font-medium text-gaming-amber border border-gaming-amber/20">
                     {item.badge}
                   </span>
@@ -410,11 +404,13 @@ export default function HomePage() {
 
       {/* ─── Stats / Community ─── */}
       <motion.section
-        className="bg-white"
+        className="relative bg-white"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-100px" }}
       >
+        <span className="absolute left-[8%] top-[10%] text-2xl opacity-10 select-none">👥</span>
+        <span className="absolute right-[10%] top-[20%] text-3xl opacity-10 select-none">📦</span>
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <motion.div
             className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4"
@@ -435,13 +431,7 @@ export default function HomePage() {
                 whileHover={{ scale: 1.05 }}
                 className="text-center rounded-xl border border-border-light bg-white p-6 shadow-sm"
               >
-                <motion.span
-                  className="text-4xl block mb-3"
-                  animate={{ scale: [1, 1.15, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  {s.icon}
-                </motion.span>
+                <span className="text-4xl block mb-3">{s.icon}</span>
                 <p className="text-3xl font-bold text-text-primary">{s.value}</p>
                 <p className="text-sm text-text-muted mt-1">{s.label}</p>
               </motion.div>
@@ -458,17 +448,12 @@ export default function HomePage() {
         viewport={{ once: true }}
       >
         <motion.div
-          className="rounded-2xl bg-gradient-to-r from-gaming-purple via-gaming-pink to-gaming-cyan p-8 sm:p-12 text-center relative overflow-hidden"
+          className="relative rounded-2xl bg-gradient-to-r from-gaming-purple via-gaming-pink to-gaming-cyan p-8 sm:p-12 text-center overflow-hidden"
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.3 }}
         >
-          <motion.div
-            className="absolute -top-10 -right-10 text-8xl opacity-10 select-none"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          >
-            🎮
-          </motion.div>
+          <span className="absolute -top-6 left-[15%] text-6xl opacity-15 select-none">🎮</span>
+          <span className="absolute -bottom-4 right-[10%] text-5xl opacity-15 select-none">🕹️</span>
           <div className="relative z-10">
             <h2 className="text-3xl font-bold text-white">Stay in the Game</h2>
             <p className="text-white/80 mt-2 mb-6 max-w-md mx-auto">
